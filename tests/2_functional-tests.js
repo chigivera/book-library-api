@@ -64,13 +64,23 @@ suite('Functional Tests', function() {
 
 
     suite('GET /api/books/[id] => book object with [id]', function(){
-      test('Test GET /api/books/[id] with id not in db',  function(done){
+     test('should fail if id is not in db', (done) => {
+    chai.request(server)
+     .post('/api/books')
+     .send({ title: 'Test Book' })
+     .end((err, res) => {
+        const bookId = res.body._id;
         chai.request(server)
-      .post('/api/books')
-      .send({ title: 'Test Book' }) // Send the request body
-      .end(function(err, res){
-        const bookId = res.body._id
+         .get(`/api/books/${bookId}`)
+         .end((err, res) => {
+            expect(res.body).to.be.an('object');
+            expect(res.body.commentcount).to.exist;
+            expect(res.body.title).to.exist;
+            expect(res.body._id).to.exist;
+            done();
+          });
       });
+  });
       
       test('Test GET /api/books/[id] with valid id in db',  function(done){
         //done();
