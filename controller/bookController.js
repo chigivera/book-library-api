@@ -14,7 +14,7 @@ exports.getBookById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     if (!book) {
-      return res.json({ message: 'no book exists' });
+      return res.send('no book exists');
     }
     res.json(book);
   } catch (err) {
@@ -23,6 +23,9 @@ exports.getBookById = async (req, res) => {
 };
 
 exports.createBook = async (req, res) => {
+  if(!req.body.title) {
+    return res.send('missing required field title')
+  }
   const book = new Book({
     title: req.body.title
   });
@@ -58,23 +61,23 @@ exports.deleteBook = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     if (!book) {
-      return res.json({ message: 'no book exists' });
+      return res.send( 'no book exists');
     }
-    await book.remove();
-    res.json({ message: 'delete successful' });
+    await book.delete();
+    res.send('delete successful');
   } catch (err) {
-    res.json({ message: err.message });
+    res.send(err.message );
   }
 };
 
 exports.addComment = async (req, res) => {
   try {
     if(!req.body.comment) {
-      return res.json({error:'missing required field comment'})
+      return res.send('missing required field comment')
     }
     const book = await Book.findById(req.params.id);
     if (!book) {
-      return res.json({ message: 'no book exists' });
+      return res.send( 'no book exists');
     }
 
     book.comments.push(req.body.comment);
@@ -91,7 +94,7 @@ exports.addComment = async (req, res) => {
 exports.deleteAllBooks = async (req, res) => {
   try {
     await Book.deleteMany({});
-    res.json({ message: 'complete delete successful' });
+    res.send( 'complete delete successful' );
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
