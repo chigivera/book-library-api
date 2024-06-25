@@ -43,10 +43,10 @@ suite('Functional Tests', function() {
       chai.request(server)
       .post('/api/books')
       .end(function(err, res){
-        assert.isArray(res.body, 'response should be an array');
-        assert.property(res.body[0], 'commentcount', 'Books in array should contain commentcount');
-        assert.property(res.body[0], 'title', 'Books in array should contain title');
-        assert.property(res.body[0], '_id', 'Books in array should contain _id');
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'commentcount', 'Books in array should contain commentcount');
+        assert.property(res.body, 'title', 'Books in array should contain title');
+        assert.property(res.body, '_id', 'Books in array should contain _id');
         done();
       });
       });
