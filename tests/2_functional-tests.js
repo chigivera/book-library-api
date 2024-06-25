@@ -148,7 +148,19 @@ suite('Functional Tests', function() {
     suite('DELETE /api/books/[id] => delete book object id', function() {
 
       test('Test DELETE /api/books/[id] with valid id in db', function(done){
-        //done();
+        chai.request(server)
+     .post('/api/books')
+     .send({ title: 'Test Book' })
+     .end((err, res) => {
+        const bookId = res.body._id;
+        chai.request(server)
+         .get(`/api/books/${bookId}`)
+         .end((err, res) => {
+            assert.equal(res.text, 'response should be an object');
+   
+            done();
+          });
+      });
       });
 
       test('Test DELETE /api/books/[id] with  id not in db', function(done){
