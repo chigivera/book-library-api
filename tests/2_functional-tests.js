@@ -106,7 +106,7 @@ suite('Functional Tests', function() {
         const bookId = res.body._id;
         chai.request(server)
          .post(`/api/books/${bookId}`)
-          .send({comment})
+          .send({comment:'test'})
          .end((err, res) => {
             assert.isObject(res.body, 'response should be an object');
         assert.property(res.body, 'commentcount', 'Books in array should contain commentcount');
