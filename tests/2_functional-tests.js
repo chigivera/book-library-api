@@ -169,7 +169,7 @@ suite('Functional Tests', function() {
         chai.request(server)
          .delete(`/api/books/${bookId}`)
          .end((err, res) => {
-            assert.equal(res.text, 'delete successful');
+            assert.equal(res.text, 'no book exists');
    
             done();
       });
