@@ -63,7 +63,7 @@ exports.deleteBook = async (req, res) => {
     if (!book) {
       return res.send( 'no book exists');
     }
-    await book.delete();
+    await book.deleteOne({});
     res.send('delete successful');
   } catch (err) {
     res.send(err.message );
