@@ -7,6 +7,8 @@
 */
 
 'use strict';
+const { getAllBooks, getBookById, createBook, updateBook, deleteBook, addComment } = require('../controller/bookController');
+
 
 module.exports = function (app) {
 
