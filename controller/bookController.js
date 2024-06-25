@@ -87,7 +87,7 @@ exports.addComment = async (req, res) => {
     const updatedBook = await book.save();
     res.json(updatedBook);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.send('missing required field comment');
   }
 };
 

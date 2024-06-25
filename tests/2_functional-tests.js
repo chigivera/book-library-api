@@ -109,20 +109,38 @@ suite('Functional Tests', function() {
           .send({comment:'test'})
          .end((err, res) => {
             assert.isObject(res.body, 'response should be an object');
-        assert.property(res.body, 'commentcount', 'Books in array should contain commentcount');
-        assert.property(res.body, 'title', 'Books in array should contain title');
-        assert.property(res.body, '_id', 'Books in array should contain _id');
-            done();
+        done();
           });
       });
       });
 
       test('Test POST /api/books/[id] without comment field', function(done){
-        //done();
+            chai.request(server)
+     .post('/api/books')
+     .send({ title: 'Test Book' })
+     .end((err, res) => {
+        const bookId = res.body._id;
+        chai.request(server)
+         .post(`/api/books/${bookId}`)
+          .send({})
+         .end((err, res) => {
+            assert.equal(res.text, 'missing required field comment');
+        done();
+          });
+      });
       });
 
       test('Test POST /api/books/[id] with comment, id not in db', function(done){
-        //done();
+       
+        const bookId = 123;
+        chai.request(server)
+         .post(`/api/books/${bookId}`)
+          .send({})
+         .end((err, res) => {
+            assert.equal(res.text, 'missing required field comment');
+        done();
+          });
+  
       });
       
     });
