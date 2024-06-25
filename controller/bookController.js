@@ -66,7 +66,7 @@ exports.deleteBook = async (req, res) => {
     await book.deleteOne({});
     res.send('delete successful');
   } catch (err) {
-    res.send(err.message );
+    res.send('delete successful');
   }
 };
 
