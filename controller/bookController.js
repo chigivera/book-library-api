@@ -1,5 +1,5 @@
 
-const Book = require('../model/book.model');
+const Book = require('../model/Book');
 
 exports.getAllBooks = async (req, res) => {
   try {
@@ -82,5 +82,14 @@ exports.addComment = async (req, res) => {
     res.json(updatedBook);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+exports.deleteAllBooks = async (req, res) => {
+  try {
+    await Book.deleteMany({});
+    res.json({ message: 'complete delete successful' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
