@@ -18,7 +18,7 @@ exports.getBookById = async (req, res) => {
     }
     res.json(book);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.send('no book exists');
   }
 };
 

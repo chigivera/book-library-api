@@ -70,7 +70,7 @@ suite('Functional Tests', function() {
         chai.request(server)
          .get(`/api/books/${bookId}`)
          .end((err, res) => {
-            assert.equal(res.text,'')
+            assert.equal(res.text,'no book exists')
             done();
           });
     
@@ -99,7 +99,22 @@ suite('Functional Tests', function() {
     suite('POST /api/books/[id] => add comment/expect book object with id', function(){
       
       test('Test POST /api/books/[id] with comment', function(done){
-        //done();
+          chai.request(server)
+     .post('/api/books')
+     .send({ title: 'Test Book' })
+     .end((err, res) => {
+        const bookId = res.body._id;
+        chai.request(server)
+         .post(`/api/books/${bookId}`)
+          .send({comment})
+         .end((err, res) => {
+            assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'commentcount', 'Books in array should contain commentcount');
+        assert.property(res.body, 'title', 'Books in array should contain title');
+        assert.property(res.body, '_id', 'Books in array should contain _id');
+            done();
+          });
+      });
       });
 
       test('Test POST /api/books/[id] without comment field', function(done){
