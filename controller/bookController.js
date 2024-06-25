@@ -14,7 +14,7 @@ exports.getBookById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     if (!book) {
-      return res.status(404).json({ message: 'Book not found' });
+      return res.json({ message: 'no book exists' });
     }
     res.json(book);
   } catch (err) {
@@ -35,43 +35,46 @@ exports.createBook = async (req, res) => {
   }
 };
 
-exports.updateBook = async (req, res) => {
-  try {
-    const book = await Book.findById(req.params.id);
-    if (!book) {
-      return res.status(404).json({ message: 'Book not found' });
-    }
+// exports.updateBook = async (req, res) => {
+//   try {
+//     const book = await Book.findById(req.params.id);
+//     if (!book) {
+//       return res.json({ message: 'no book exists' });
+//     }
 
-    book.title = req.body.title;
-    book.comments = req.body.comments;
-    book.commentCount = req.body.comments.length;
-    book.updatedAt = Date.now();
+//     book.title = req.body.title;
+//     book.comments = req.body.comments;
+//     book.commentCount = req.body.comments.length;
+//     book.updatedAt = Date.now();
 
-    const updatedBook = await book.save();
-    res.json(updatedBook);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
+//     const updatedBook = await book.save();
+//     res.json(updatedBook);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
 
 exports.deleteBook = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     if (!book) {
-      return res.status(404).json({ message: 'Book not found' });
+      return res.json({ message: 'no book exists' });
     }
     await book.remove();
-    res.json({ message: 'Book deleted' });
+    res.json({ message: 'delete successful' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.json({ message: err.message });
   }
 };
 
 exports.addComment = async (req, res) => {
   try {
+    if(!req.body.comment) {
+      return res.json({error:'missing required field comment'})
+    }
     const book = await Book.findById(req.params.id);
     if (!book) {
-      return res.status(404).json({ message: 'Book not found' });
+      return res.json({ message: 'no book exists' });
     }
 
     book.comments.push(req.body.comment);
